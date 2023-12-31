@@ -4,12 +4,17 @@ import { dataItems } from "./data";
 
 function App() {
   const [itemList, setItemList] = useState(dataItems)
-  const inputValue = useRef(null)
+  const [value, setValue] = useState<string>('')
+  const inputValue = useRef<HTMLInputElement | null>(null);
+    
 
-  const handleInputChange = () => {
-
-    console.log(inputValue.current);
-  };
+   const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && inputValue.current) {
+      console.log('Valor do input:', inputValue.current.value);   
+      setValue(inputValue.current.value);
+      setItemList([...itemList, ])
+    }
+  }
 
   return (
     <div className="w-screen h-screen bg-zinc-800 flex justify-center items-center">
@@ -23,7 +28,8 @@ function App() {
             className="px-[1rem] text-[12px] w-[25rem] py-[10px] rounded bg-transparent border-[1px] border-violet-600 outline-none text-slate-200"
             type="text"  
             placeholder="Adicione nova notificação"
-            onChange={handleInputChange}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={handleInputChange} 
              />
           </div>
             
