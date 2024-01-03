@@ -28,3 +28,26 @@ code {
 .op:hover svg{
   transform: scale(1.2);
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Aplicar a animação à classe da lista */
+ul {
+  /* Propriedades de transição para todos os elementos li */
+  /* Você pode ajustar esses valores conforme necessário */
+  transition: all 0.5s ease;
+}
+
+/* Classe que aciona a animação nos novos elementos */
+.slide-enter {
+  animation: slideIn 0.5s ease forwards;
+}

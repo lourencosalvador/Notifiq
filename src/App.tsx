@@ -1,7 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Items } from "./components/List";
 import { dataItems } from "./data";
-
+interface Itemsdata 
+  {
+      tipeNotifiq: string,
+      text: string,
+      options: boolean
+  }
 function App() {
   const [itemList, setItemList] = useState(dataItems)
   const [value, setValue] = useState<string>('')
@@ -10,10 +15,23 @@ function App() {
 
    const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && inputValue.current) {
-      console.log('Valor do input:', inputValue.current.value);   
+      // console.log('Valor do input:', inputValue.current.value);   
       setValue(inputValue.current.value);
-      setItemList([...itemList, ])
+      setItemList([...itemList, {
+          tipeNotifiq: 'alarm',
+          text: inputValue.current.value,
+          options: true
+      } ])
+      analiseFrase(inputValue.current.value)
     }
+  }
+
+  function analiseFrase(frases: string){
+    const palavraChave = 'tarde'
+        const newFrase = frases.split(" ")
+        const verifiq = newFrase.some(palavra => palavra === palavraChave)
+        console.log(verifiq)
+
   }
 
   return (
@@ -33,11 +51,12 @@ function App() {
              />
           </div>
             
-           <div className="flex flex-col gap-8 px-[2rem]">
+           <div className="flex flex-col gap-8 px-[2rem] ">
            <h1 className="text-white font-medium text-[15.5px]">Notificações recentes</h1>
-            <ul className="px-[5rem] flex flex-col gap-2">
+            <ul className="px-[5rem] flex flex-col gap-2 w-auto ">
               {
                 itemList.map(item => {
+                  
                   return  <Items key={item.text} tipeNotifiq={item.tipeNotifiq} text={item.text} options={item.options} />;
                 })
               }
