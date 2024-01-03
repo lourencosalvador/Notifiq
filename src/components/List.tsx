@@ -1,18 +1,18 @@
 import { IoMdAlarm, IoIosCheckmark, IoIosClose, IoMdCreate } from "react-icons/io";
 import { dataItems } from "../data";
 import { text } from "stream/consumers";
-import { useState } from "react";
+import { memo, useState } from "react";
 type ItemProps = {
     tipeNotifiq: string;
     text: string;
     options: boolean;
   };
   
-  export function Items({ tipeNotifiq, text, options }: ItemProps) {
+  export function TodosItems({ tipeNotifiq, text, options }: ItemProps) {
     return(
         <>
        
-                <li className="w-[400px] h-[70px] bg-zinc-900 rounded flex justify-between items-center px-[1rem]">
+                <li className="slider-enter w-[400px] h-[70px]  bg-zinc-900 rounded flex justify-between items-center px-[1rem]">
           <div className="icons w-[70px] h-[50px]  border-[1px] border-violet-900 rounded flex justify-center items-center">
            {
             tipeNotifiq == 'edit' ? (
@@ -40,3 +40,5 @@ type ItemProps = {
     </>
     )
 }
+
+export const Items = memo(TodosItems)

@@ -1,15 +1,37 @@
 import React, { useRef, useState } from "react";
 import { Items } from "./components/List";
 import { dataItems } from "./data";
-
+import { palavrasHorarios } from "./data/base";
+import { VerifiqPalavra } from "./hook/VerifiqPalavra";
+export interface Itemsdata 
+  {
+      tipeNotifiq: string,
+      text: string,
+      options: boolean
+  }
 function App() {
   const [itemList, setItemList] = useState(dataItems)
-  const inputValue = useRef(null)
+  const [value, setValue] = useState<string>('')
+  const inputValue = useRef<HTMLInputElement | null>(null);
+    
 
-  const handleInputChange = () => {
+   const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && inputValue.current) {
+      // console.log('Valor do input:', inputValue.current.value);   
+      setValue(inputValue.current.value);
+      setItemList([...itemList, {
+          tipeNotifiq: 'alarm',
+          text: inputValue.current.value,
+          options: true
+      } ])
+       const achada = VerifiqPalavra(inputValue.current.value)
+       console.log(achada)
+    }
+  }
 
-    console.log(inputValue.current);
-  };
+  
+
+ 
 
   return (
     <div className="w-screen h-screen bg-zinc-800 flex justify-center items-center">
@@ -23,15 +45,17 @@ function App() {
             className="px-[1rem] text-[12px] w-[25rem] py-[10px] rounded bg-transparent border-[1px] border-violet-600 outline-none text-slate-200"
             type="text"  
             placeholder="Adicione nova notificação"
-            onChange={handleInputChange}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={handleInputChange} 
              />
           </div>
             
-           <div className="flex flex-col gap-8 px-[2rem]">
+           <div className="flex flex-col gap-8 px-[2rem] ">
            <h1 className="text-white font-medium text-[15.5px]">Notificações recentes</h1>
-            <ul className="px-[5rem] flex flex-col gap-2">
+            <ul className="px-[5rem] flex flex-col gap-2 w-auto ">
               {
                 itemList.map(item => {
+                  
                   return  <Items key={item.text} tipeNotifiq={item.tipeNotifiq} text={item.text} options={item.options} />;
                 })
               }
