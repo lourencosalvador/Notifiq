@@ -3,12 +3,15 @@ import { dataItems } from "../data";
 import { text } from "stream/consumers";
 import { memo, useState } from "react";
 type ItemProps = {
+  deletTask: (id: string) => void;
     tipeNotifiq: string;
     text: string;
     options: boolean;
   };
   
-  export function TodosItems({ tipeNotifiq, text, options }: ItemProps) {
+  export function TodosItems({ tipeNotifiq, text, options, deletTask }: ItemProps) {
+
+   
     return(
         <>
        
@@ -16,8 +19,8 @@ type ItemProps = {
           <div className="icons w-[70px] h-[50px]  border-[1px] border-violet-900 rounded flex justify-center items-center">
            {
             tipeNotifiq == 'edit' ? (
-                <IoMdAlarm />
-            ) :  <IoMdCreate />
+                <IoMdCreate />
+            ) :  <IoMdAlarm />
            }
           </div>
            <h3 className="text-slate-200 text-[14.5px]">
@@ -30,7 +33,7 @@ type ItemProps = {
                 <div className="op w-[40px] h-[40px] bg-zinc-800 rounded-sm flex justify-center items-center">
                   <IoIosCheckmark />
                 </div>
-                <div className="op w-[40px] h-[40px] bg-zinc-800 rounded-sm flex justify-center items-center">
+                <div onClick={() => deletTask(text)} className="op w-[40px] h-[40px] bg-zinc-800 rounded-sm flex justify-center items-center">
                   <IoIosClose />
                 </div>
               </div>

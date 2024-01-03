@@ -17,19 +17,22 @@ function App() {
 
    const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && inputValue.current) {
-      // console.log('Valor do input:', inputValue.current.value);   
+
       setValue(inputValue.current.value);
+      const achada = VerifiqPalavra(inputValue.current.value)
+      const result = achada ? 'alarm' : 'edit'
       setItemList([...itemList, {
-          tipeNotifiq: 'alarm',
+          tipeNotifiq: `${result}`,
           text: inputValue.current.value,
           options: true
       } ])
-       const achada = VerifiqPalavra(inputValue.current.value)
-       console.log(achada)
     }
   }
 
-  
+  const deletTask = (id: string) => {
+        const deleteItem = itemList.filter(item => !item.text.includes(id))
+        setItemList(deleteItem)
+  }
 
  
 
@@ -56,7 +59,7 @@ function App() {
               {
                 itemList.map(item => {
                   
-                  return  <Items key={item.text} tipeNotifiq={item.tipeNotifiq} text={item.text} options={item.options} />;
+                  return  <Items deletTask={deletTask} key={item.text} tipeNotifiq={item.tipeNotifiq} text={item.text} options={item.options} />;
                 })
               }
             </ul>
