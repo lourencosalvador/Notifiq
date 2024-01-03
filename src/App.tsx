@@ -3,6 +3,8 @@ import { Items } from "./components/List";
 import { dataItems } from "./data";
 import { palavrasHorarios } from "./data/base";
 import { VerifiqPalavra } from "./hook/VerifiqPalavra";
+import addNotification from 'react-push-notification'
+import { IoMdAlarm } from "react-icons/io";
 export interface Itemsdata 
   {
       tipeNotifiq: string,
@@ -13,19 +15,32 @@ function App() {
   const [itemList, setItemList] = useState(dataItems)
   const [value, setValue] = useState<string>('')
   const inputValue = useRef<HTMLInputElement | null>(null);
-    
+  let result: string
 
    const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && inputValue.current) {
 
       setValue(inputValue.current.value);
       const achada = VerifiqPalavra(inputValue.current.value)
-      const result = achada ? 'alarm' : 'edit'
+      if(achada){
+      result = 'alarm'
+      addNotification({
+        title: "Lembrete App Notificaton",
+        message: `Não se esqueça que deves ${inputValue.current.value}`,
+        duration: 4000,
+        icon: '⏱️',
+        native: true
+      })
+      } else{
+        result = 'edit'
+      }
       setItemList([...itemList, {
           tipeNotifiq: `${result}`,
           text: inputValue.current.value,
           options: true
       } ])
+
+      
     }
   }
 
