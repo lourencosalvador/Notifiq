@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Items } from "./components/List";
 import { dataItems } from "./data";
-interface Itemsdata 
+import { palavrasHorarios } from "./data/base";
+import { VerifiqPalavra } from "./hook/VerifiqPalavra";
+export interface Itemsdata 
   {
       tipeNotifiq: string,
       text: string,
@@ -22,17 +24,14 @@ function App() {
           text: inputValue.current.value,
           options: true
       } ])
-      analiseFrase(inputValue.current.value)
+       const achada = VerifiqPalavra(inputValue.current.value)
+       console.log(achada)
     }
   }
 
-  function analiseFrase(frases: string){
-    const palavraChave = 'tarde'
-        const newFrase = frases.split(" ")
-        const verifiq = newFrase.some(palavra => palavra === palavraChave)
-        console.log(verifiq)
+  
 
-  }
+ 
 
   return (
     <div className="w-screen h-screen bg-zinc-800 flex justify-center items-center">
